@@ -1,0 +1,17 @@
+#CNN Transformer config files
+device: "cpu"
+
+transformer:
+  train:
+    features_path:  "../data/transformer/features.npy"
+    labels_path: "../data/transformer/labels.npy"
+    val_size: 0.15
+    epochs: 500
+    early_stopping: 15
+    train_BS: 64
+    valid_BS: 64
+    learning_rate: 0.01
+    save_model_path: "../saved_model.transformer"
+  
+  
+  
