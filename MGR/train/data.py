@@ -2,6 +2,7 @@
 
 import torch
 import sklearn
+import numpy as np
 
 class MGRFeatures(torch.utils.data.Dataset):
     """Class to load the data
@@ -83,3 +84,27 @@ def get_data(features, labels, transform=None, valid_size=0.15, train_BS=64, val
     train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=train_BS, shuffle=True)
     val_loader = torch.utils.data.DataLoader(val_dataset, batch_size=valid_BS, shuffle=True)
     return train_loader, val_loader
+
+def load_data(features_path,  labels_path):
+    """Load the data
+    
+    Arguments:
+    __________
+    features_path: str
+        Path to the features
+    labels_path: str
+        Path to the labels
+    
+    Returns:
+    ________
+    features: torch.Tensor
+        Features of the data
+    labels: torch.Tensor
+        Labels of the data
+    """
+
+    features = np.load(features_path)
+    labels = np.load(labels_path)
+
+    features  = torch.FloatTensor(features)
+    return features, labels
