@@ -1,5 +1,3 @@
-from spacy import load
-from torch import device
 from mgr.model.transformer import cnn_transformer_v3
 from mgr.train.data import get_data
 from mgr.train.model_utils import get_model_configs
