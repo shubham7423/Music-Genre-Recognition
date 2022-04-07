@@ -3,6 +3,7 @@
 import torch
 import sklearn
 import numpy as np
+from sklearn.model_selection import train_test_split
 
 class MGRFeatures(torch.utils.data.Dataset):
     """Class to load the data
@@ -76,7 +77,7 @@ def get_data(features, labels, transform=None, valid_size=0.15, train_BS=64, val
         Data loader for validation
     """
 
-    train_features, val_features, train_labels, val_labels = sklearn.model_selection.train_test_split(
+    train_features, val_features, train_labels, val_labels = train_test_split(
         features, labels, shuffle=True, test_size=valid_size)
     train_dataset = MGRFeatures(train_features, train_labels, transform)
     val_dataset = MGRFeatures(val_features, val_labels, transform)
