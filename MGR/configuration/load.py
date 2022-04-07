@@ -8,5 +8,5 @@ def load_configurations():
     config: dict
         Dictionary containing configurations
     """
-    with open('configuration.yaaml', 'r') as file:
+    with open('mgr/configuration/configuration.yaml', 'r') as file:
         return yaml.load(file)

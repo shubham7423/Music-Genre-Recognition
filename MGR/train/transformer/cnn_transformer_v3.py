@@ -1,20 +1,14 @@
-import torch
-# import trainer
-from model import cnn_transformer_v3
-import train.data as data
+from spacy import load
+from torch import device
+from mgr.model.transformer import cnn_transformer_v3
+from mgr.train.data import get_data
+from mgr.train.model_utils import get_model_configs
+from mgr.trainer import Trainer
+from mgr.configuration import load_configurations
 
+import torchvision.transforms as transforms
 
-
-def create_model(
-    embed_dim=256,
-    hidden_dim=512,
-    num_heads=4,
-    num_layers=32,
-    dropout=0.3,
-    num_classes=8,
-    num_patches=65,
-    device="cpu",
-):
+def start_training():
     """Create the model
     
     Returns:
@@ -22,18 +16,34 @@ def create_model(
     model: torch.nn.Module
         Model to be trained
     """
+
+    CFG = load_configurations()['transformer']['train']
+    device = load_configurations()['device']
+
     model = cnn_transformer_v3.CNNTransformerV3(
-        embed_dim=embed_dim,
-        hidden_dim=hidden_dim,
-        num_head=num_heads,
-        num_layers=num_layers,
-        num_patches=num_patches,
-        num_classes=num_classes,
-        dropout=dropout,
+        embed_dim=CFG['model_params']['embed_dim'],
+        hidden_dim=CFG['model_params']['hidden_dim'],
+        num_head=CFG['model_params']['num_heads'],
+        num_layers=CFG['model_params']['num_layers'],
+        num_patches=CFG['model_params']['num_patches'],
+        num_classes=CFG['model_params']['num_classes'],
+        dropout=CFG['model_params']['dropout'],
         device=device
     )
-    train.g
-    train_loader, val_loader = get_data(features, labels, transform)
-    
+
+    transform = transforms.Compose([
+        transforms.Normalize(0.5, 0.5)
+    ])
+
+    train_loader, val_loader = get_data(CFG['features'], CFG['labels'], transform)
     criterion, optimizer, scheduler = get_model_configs(model, train_loader)
-    return model
+
+    trainer = Trainer(model, device, optimizer, criterion, scheduler)
+
+    History = trainer.fit(CFG['early_stopping'], CFG['save_model_at'], train_loader, 
+                          val_loader, CFG['epochs'], train_BS=CFG['train_BS'], valid_BS=CFG['valid_BS'])
+
+    return model, History
+
+# def start_training():
+#     model, criterion, optimizer, scheduler, train_loader, val_loader =  

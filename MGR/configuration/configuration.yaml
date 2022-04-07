@@ -1,5 +1,6 @@
 #CNN Transformer config files
 device: "cpu"
+sample_rate: 16000
 
 transformer:
   train:
@@ -11,7 +12,19 @@ transformer:
     train_BS: 64
     valid_BS: 64
     learning_rate: 0.01
-    save_model_path: "../saved_model.transformer"
-  
-  
+    save_model_at: "../saved_model.transformer"
+
+    model_params: 
+      embed_dim: 256
+      hidden_dim: 512
+      num_heads: 4
+      num_layers: 32
+      dropout: 0.3
+      num_classes: 8
+      num_patches: 65
+
+    early_stopping: 15
+    train_BS: 64
+    valid_BS: 64
+    epochs: 500
   

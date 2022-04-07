@@ -4,7 +4,7 @@ import torch
 import numpy as np
 import torchvision
 
-class TransformerV3(nn.Module):
+class CNNTransformerV3(nn.Module):
     """Transformer Block
     
     Arguments:
