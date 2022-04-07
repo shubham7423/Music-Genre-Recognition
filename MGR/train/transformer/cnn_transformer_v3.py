@@ -7,6 +7,7 @@ from mgr.trainer import Trainer
 from mgr.configuration import load_configurations
 
 import torchvision.transforms as transforms
+import matplotlib.pyplot as plt
 
 def start_training():
     """Create the model
@@ -43,7 +44,18 @@ def start_training():
     History = trainer.fit(CFG['early_stopping'], CFG['save_model_at'], train_loader, 
                           val_loader, CFG['epochs'], train_BS=CFG['train_BS'], valid_BS=CFG['valid_BS'])
 
-    return model, History
+    plt.plot(History['train_loss'], label="train")
+    plt.plot(History['val_loss'], label="val")
+    plt.title("Loss")
+    plt.xlabel('epochs')
+    plt.legend()
+    plt.show()
 
-# def start_training():
-#     model, criterion, optimizer, scheduler, train_loader, val_loader =  
+    plt.plot(History['train_acc'], label="train")
+    plt.plot(History['val_acc'], label="val")
+    plt.legend()
+    plt.title("Accuracy")
+    plt.xlabel('epochs')
+    plt.show()
+
+    return model, History
