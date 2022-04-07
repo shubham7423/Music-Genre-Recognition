@@ -4,15 +4,15 @@ sample_rate: 16000
 
 transformer:
   train:
-    features_path:  "../data/transformer/features.npy"
-    labels_path: "../data/transformer/labels.npy"
+    features_path:  "data/features.npy"
+    labels_path: "data/labels.npy"
     val_size: 0.15
     epochs: 500
     early_stopping: 15
     train_BS: 64
     valid_BS: 64
     learning_rate: 0.01
-    save_model_at: "../saved_model.transformer"
+    save_model_at: "model_weights/transformer"
 
     model_params: 
       embed_dim: 256
