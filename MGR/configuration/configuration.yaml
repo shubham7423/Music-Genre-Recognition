@@ -2,11 +2,6 @@
 device: "cpu"
 sample_rate: 16000
 
-preprocessing:
-  audio_dir: ""
-  csv_path: ""
-  save_dir: ""
-
 transformer:
   train:
     features_path:  "data/features.npy"
