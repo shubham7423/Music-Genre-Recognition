@@ -34,7 +34,7 @@ def start_training():
         transforms.Normalize(0.5, 0.5)
     ])
 
-    train_loader, val_loader = get_data(CFG['features'], CFG['labels'], transform)
+    train_loader, val_loader = get_data(CFG['features_path'], CFG['labels_path'], transform)
     criterion, optimizer, scheduler = get_model_configs(model, train_loader)
 
     trainer = Trainer(model, device, optimizer, criterion, scheduler)
