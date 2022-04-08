@@ -34,3 +34,23 @@ transformer:
     labels_path: "data/test/test_labels.npy"
 
   
+lstm:
+  train:
+    features_path:  "data/train/train_features.npy"
+    labels_path: "data/train/train_labels.npy"
+    val_size: 0.15
+    epochs: 200
+    early_stopping: 15
+    train_BS: 64
+    valid_BS: 64
+    learning_rate: 0.01
+    save_model_at: "model_weights/lstm"
+
+    early_stopping: 15
+    train_BS: 64
+    valid_BS: 64
+    epochs: 500
+     
+  test:
+    features_path:  "data/test/test_features.npy"
+    labels_path: "data/test/test_labels.npy"
