@@ -2,6 +2,4 @@
 
 from .cnn_transformer_v3 import *
 
-
-
-
+from .cnn_patch_transformer import *
