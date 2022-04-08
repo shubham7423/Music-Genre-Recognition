@@ -1,7 +1,6 @@
 """Util functions for data used during training"""
 
 import torch
-import sklearn
 import numpy as np
 from sklearn.model_selection import train_test_split
 
@@ -76,7 +75,7 @@ def get_data(features, labels, transform=None, valid_size=0.15, train_BS=64, val
     valid_loader: torch.utils.data.DataLoader
         Data loader for validation
     """
-
+    print(features.shape, labels.shape)
     train_features, val_features, train_labels, val_labels = train_test_split(
         features, labels, shuffle=True, test_size=valid_size)
     train_dataset = MGRFeatures(train_features, train_labels, transform)

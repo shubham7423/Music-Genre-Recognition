@@ -28,13 +28,15 @@ class Trainer:
         device, 
         optimizer, 
         criterion, 
-        scheduler=None
+        scheduler=None,
+        model_name="abc.pt"
     ):
         self.model = model
         self.device = device
         self.optimizer = optimizer
         self.criterion = criterion
         self.scheduler = scheduler
+        self.model_name = model_name
 
     def train (self, train_loader, epoch):
         """Training loop for a specific epoch.
@@ -192,7 +194,7 @@ class Trainer:
                           }
                     
 
-                    model_path_1 = os.path.join(model_path, 'model_fold{}.pt'.format(fold))
+                    model_path_1 = os.path.join(model_path, self.model_name)
                     torch.save(checkpoint, model_path_1)
                     print('\nVal loss decreased ({:.4f} -> {:.4f}), Model saved'.format(min_loss, val_loss))
                     min_loss = val_loss
@@ -222,7 +224,7 @@ class Trainer:
                         'model': self.model.state_dict(),
                         'optimizer': self.optimizer.state_dict()
                     }
-                    model_path_1 = '{}model_{}_fold{}.pt'.format(model_path, epoch+1, fold)
+                    model_path_1 = os.path.join((model_path, self.model_name))
                     torch.save(checkpoint, model_path_1)
             
             if self.scheduler is not None:

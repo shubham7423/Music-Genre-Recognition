@@ -132,6 +132,7 @@ def predict(model, audio_file_path, labels=['Electronic', 'Experimental', 'Folk'
         Predicted label.
     """
     sample_rate = load_configurations()['sample_rate']
+    device = load_configurations()['device']
 
     mel_spectrogram = torchaudio.transforms.MelSpectrogram(
         sample_rate=sample_rate,
@@ -154,7 +155,7 @@ def predict(model, audio_file_path, labels=['Electronic', 'Experimental', 'Folk'
     
     model.eval()
     with torch.no_grad():
-        predicted_labels = model(preprocessed_signals)
+        predicted_labels = model(preprocessed_signals.to(device))
     predicted_label = torch.argmax(torch.mean(predicted_labels, dim=0))
     print(torch.nn.functional.softmax(torch.mean(predicted_labels, dim=0)))
     return labels[predicted_label]
