@@ -15,7 +15,6 @@ import torch
 
 def getModel():
     
-    # CFG = load_configurations()['lstm']['train']
     device = load_configurations()['device']
     model = cnn_lstm.CNNLstm(8).to(device)
     return model
@@ -45,7 +44,7 @@ def start_training():
     train_loader, val_loader = get_data(features, labels, transform)
     criterion, optimizer, scheduler = get_model_configs(model, len(train_loader), CFG['learning_rate'], CFG['epochs'])
     
-    trainer = Trainer(model, device, optimizer, criterion, scheduler, model_name="transformerv3.pt")
+    trainer = Trainer(model, device, optimizer, criterion, scheduler, model_name="lstm.pt")
 
     History = trainer.fit(CFG['early_stopping'], CFG['save_model_at'], train_loader, 
                           val_loader, CFG['epochs'], train_BS=CFG['train_BS'], valid_BS=CFG['valid_BS'])
