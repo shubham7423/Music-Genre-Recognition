@@ -9,6 +9,7 @@ import torchvision.transforms as transforms
 import matplotlib.pyplot as plt
 import numpy as np
 import torch
+import os
 
 def getModel():
     
@@ -77,6 +78,8 @@ def start_training():
     plt.xlabel('epochs')
     plt.show()
     
+    ckpts = torch.load(os.path.join(CFG['save_model_at'], "cnn_patch_transformer.pt"), map_location=CFG['device'])
+    model.load_state_dict(ckpts['model'])
     
     
     predict_test(model, device, criterion)
