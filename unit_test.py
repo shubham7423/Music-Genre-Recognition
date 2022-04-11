@@ -10,6 +10,7 @@ import mgr.train.cnn.resnet as resnet
 import mgr 
 import mgr.train
 import torch
+import os
 
 def test_model_class():
     """Test the model class
@@ -38,17 +39,18 @@ def test_model_class():
     assert opt.size(-1) == 8
     assert isinstance(model, torch.nn.Module)
 
-    train_loader, val_loader = mgr.train.data.get_data(mgr.configuration.load.load_configurations()['data_path'])
+    train_loader, val_loader = mgr.train.data.get_data(mgr.configuration.load.load_configurations()['cnn']['train']['features_path'])
     assert len(train_loader.shape) == 4
     assert len(val_loader.shape) == 4
-    assert train_loader.batch_size == mgr.configuration.load.load_configurations()['train_batch_size']
-    assert val_loader.batch_size == mgr.configuration.load.load_configurations()['valid_batch_size']
+    assert train_loader.batch_size == mgr.configuration.load.load_configurations()['cnn']['train']['train_BS']
+    assert val_loader.batch_size == mgr.configuration.load.load_configurations()['cnn']['train']['valid_BS']
     assert train_loader.shape[1:] == val_loader.shape[1:]
     assert train_loader.shape[1:] == (1, 128, 94)
-    assert train_loader.shape[0] == mgr.configuration.load.load_configurations()['train_size']
-    assert val_loader.shape[0] == mgr.configuration.load.load_configurations()['valid_size']
+    assert train_loader.shape[0] == mgr.configuration.load.load_configurations()['cnn']['train']['train_BS']
+    assert val_loader.shape[0] == mgr.configuration.load.load_configurations()['cnn']['train']['valid_BS']
 
-
+    assert os.path.exists(mgr.configuration.load.load_configurations()['cnn']['train']['features_path'])
+    assert os.path.exists(mgr.configuration.load.load_configurations()['cnn']['train']['labels_path'])
     
 if __name__ == "__main__":
     test_model_class()

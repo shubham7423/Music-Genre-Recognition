@@ -11,13 +11,7 @@ cnn:
     train_BS: 64
     valid_BS: 64
     learning_rate: 0.01
-    save_model_at: "model_weights/cnn"
-
-    early_stopping: 5
-    train_BS: 64
-    valid_BS: 64
-    epochs: 1
-     
+    save_model_at: "model_weights/cnn"     
   test:
     features_path:  "data/test/test_features.npy"
     labels_path: "data/test/test_labels.npy"
@@ -27,17 +21,12 @@ transformer:
     features_path:  "data/train/train_features.npy"
     labels_path: "data/train/train_labels.npy"
     val_size: 0.15
-    epochs: 1
+    epochs: 200
     early_stopping: 15
     train_BS: 64
     valid_BS: 64
     learning_rate: 0.01
     save_model_at: "model_weights/transformer"
-
-    early_stopping: 15
-    train_BS: 64
-    valid_BS: 64
-    epochs: 1
     
     model_params: 
       embed_dim: 256
@@ -59,7 +48,7 @@ lstm:
     features_path:  "data/train/train_features.npy"
     labels_path: "data/train/train_labels.npy"
     val_size: 0.15
-    epochs: 1
+    epochs: 200
     early_stopping: 15
     train_BS: 64
     valid_BS: 64
