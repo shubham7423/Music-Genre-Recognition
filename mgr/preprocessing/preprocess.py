@@ -207,8 +207,13 @@ def process():
     for x, y in tq.tqdm_notebook(loader, total=len(loader)):
         features.extend(x.cpu().numpy())
         labels.extend(y.cpu().numpy())
+        
+    train_features, test_features, train_labels, test_labels = train_test_split(features, labels, shuffle=True, test_size=0.1)
 
-    np.save(os.path.join("features.npy"), features)
-    np.save(os.path.join("labels.npy"), labels)
+    np.save(os.path.join(CFG['preprocessing']['train'], "features.npy"), train_features)
+    np.save(os.path.join(CFG['preprocessing']['train'], "labels.npy"), train_labels)
+    
+    np.save(os.path.join(CFG['preprocessing']['test'], "features.npy"), test_features)
+    np.save(os.path.join(CFG['preprocessing']['test'], "labels.npy"), test_labels)
 
-    print("Preprocessed data stored in: ", CFG['preprocessing']['save_dir'])
+    print("Preprocessed data stored in {} and {}: ".format(CFG['preprocessing']['train'], CFG['preprocessing']['test']))

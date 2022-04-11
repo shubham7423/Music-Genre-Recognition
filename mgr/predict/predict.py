@@ -149,15 +149,13 @@ def predict(model, audio_file_path, labels=['Electronic', 'Experimental', 'Folk'
         torchvision.transforms.Normalize(0.5, 0.5)
     ])
 
-    signal_samples, sr = get_random_samples(audio_file_path, sample_rate)
+    signal_samples, sr = get_random_samples(audio_file_path, 5)
 
     preprocessed_signals = apply_preprocessing(signal_samples, sr, transform, sample_rate)
     
     model.eval()
     with torch.no_grad():
         predicted_labels = model(preprocessed_signals.to(device))
-    predicted_label = torch.argmax(torch.mean(predicted_labels, dim=0))
-    print(torch.nn.functional.softmax(torch.mean(predicted_labels, dim=0)))
-    return labels[predicted_label]
-
+    pred = torch.topk(torch.mean(predicted_labels, dim=0), 3).indices
+    return [labels[x.item()] for x in pred]  
 

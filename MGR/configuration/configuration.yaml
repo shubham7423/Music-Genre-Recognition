@@ -1,4 +1,3 @@
-#CNN Transformer config files
 device: "cuda"
 sample_rate: 16000
 
@@ -14,10 +13,10 @@ cnn:
     learning_rate: 0.01
     save_model_at: "model_weights/cnn"
 
-    early_stopping: 15
+    early_stopping: 5
     train_BS: 64
     valid_BS: 64
-    epochs: 500
+    epochs: 1
      
   test:
     features_path:  "data/test/test_features.npy"
@@ -28,7 +27,7 @@ transformer:
     features_path:  "data/train/train_features.npy"
     labels_path: "data/train/train_labels.npy"
     val_size: 0.15
-    epochs: 500
+    epochs: 1
     early_stopping: 15
     train_BS: 64
     valid_BS: 64
@@ -44,7 +43,7 @@ transformer:
       embed_dim: 256
       hidden_dim: 512
       num_heads: 8
-      num_layers: 36
+      num_layers: 48
       dropout: 0.3
       num_classes: 8
       num_patches: 65  
@@ -60,7 +59,7 @@ lstm:
     features_path:  "data/train/train_features.npy"
     labels_path: "data/train/train_labels.npy"
     val_size: 0.15
-    epochs: 200
+    epochs: 1
     early_stopping: 15
     train_BS: 64
     valid_BS: 64
@@ -75,3 +74,9 @@ lstm:
   test:
     features_path:  "data/test/test_features.npy"
     labels_path: "data/test/test_labels.npy"
+    
+preprocessing:
+  train: "data/train/"
+  test: "data/test/"
+  csv_path: "raw_data/split_data.csv"
+  audio_dir: "raw_data/split_data"

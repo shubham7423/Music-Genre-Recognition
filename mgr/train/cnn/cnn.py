@@ -63,7 +63,7 @@ def start_training():
     plt.xlabel('epochs')
     plt.show()
     
-    ckpts = torch.load(os.path.join(CFG['save_model_at'], "resnet.pt"), map_location=device)
+    ckpts = torch.load(os.path.join(CFG['save_model_at'], "cnn.pt"), map_location=device)
     model.load_state_dict(ckpts['model'])
     
     predict_test(model, device, criterion)
