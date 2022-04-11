@@ -39,7 +39,7 @@ def test_model_class():
     assert opt.size(-1) == 8
     assert isinstance(model, torch.nn.Module)
 
-    train_loader, val_loader = mgr.train.data.get_data(mgr.configuration.load.load_configurations()['cnn']['train']['features_path'])
+    train_loader, val_loader = mgr.train.data.load_data(mgr.configuration.load.load_configurations()['cnn']['train']['features_path'], mgr.configuration.load.load_configurations()['cnn']['train']['labels_path'])
     assert len(train_loader.shape) == 4
     assert len(val_loader.shape) == 4
     assert train_loader.batch_size == mgr.configuration.load.load_configurations()['cnn']['train']['train_BS']
