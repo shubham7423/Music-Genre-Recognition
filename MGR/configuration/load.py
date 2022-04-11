@@ -1,8 +1,9 @@
 import yaml
 
+
 def load_configurations():
     """Function to load configurations from yaml file
-    
+
     Returns:
     ________
     config: dict

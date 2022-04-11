@@ -4,6 +4,7 @@ import torch
 import numpy as np
 from sklearn.model_selection import train_test_split
 
+
 class MGRFeatures(torch.utils.data.Dataset):
     """Class to load the data
 
@@ -16,28 +17,30 @@ class MGRFeatures(torch.utils.data.Dataset):
     transform: torchvision.transforms
         Transformation to be applied to the data
     """
+
     def __init__(self, features, labels, transform=None):
         self.features = features
         self.labels = labels
         self.transform = transform
-    
+
     def __len__(self):
         """Length of the dataset
-        
+
         Returns:
         ________
-        int
+        ints: int
+            Length of the dataset
         """
         return self.features.shape[0]
-    
+
     def __getitem__(self, idx):
         """Get item from the dataset
-        
+
         Arguments:
         __________
         idx: int
             Index of the item
-        
+
         Returns:
         ________
         features: torch.Tensor
@@ -50,9 +53,16 @@ class MGRFeatures(torch.utils.data.Dataset):
             features = self.transform(features)
         return features, self.labels[idx]
 
-def get_data(features, labels, transform=None, valid_size=0.15, train_BS=64, valid_BS=64):
+
+def get_data(
+        features,
+        labels,
+        transform=None,
+        valid_size=0.15,
+        train_BS=64,
+        valid_BS=64):
     """Get the data loaders
-    
+
     Arguments:
     __________
     features: numpy.ndarray
@@ -80,21 +90,24 @@ def get_data(features, labels, transform=None, valid_size=0.15, train_BS=64, val
         features, labels, shuffle=True, test_size=valid_size)
     train_dataset = MGRFeatures(train_features, train_labels, transform)
     val_dataset = MGRFeatures(val_features, val_labels, transform)
-    
-    train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=train_BS, shuffle=True)
-    val_loader = torch.utils.data.DataLoader(val_dataset, batch_size=valid_BS, shuffle=True)
+
+    train_loader = torch.utils.data.DataLoader(
+        train_dataset, batch_size=train_BS, shuffle=True)
+    val_loader = torch.utils.data.DataLoader(
+        val_dataset, batch_size=valid_BS, shuffle=True)
     return train_loader, val_loader
 
-def load_data(features_path,  labels_path):
+
+def load_data(features_path, labels_path):
     """Load the data
-    
+
     Arguments:
     __________
     features_path: str
         Path to the features
     labels_path: str
         Path to the labels
-    
+
     Returns:
     ________
     features: torch.Tensor
@@ -106,5 +119,5 @@ def load_data(features_path,  labels_path):
     features = np.load(features_path)
     labels = np.load(labels_path)
 
-    features  = torch.FloatTensor(features)
+    features = torch.FloatTensor(features)
     return features, labels

@@ -2,9 +2,10 @@
 
 import torch
 
+
 def get_model_configs(model, train_size, learning_rate, num_epochs):
     """Get the configs to triain the model
-    
+
     Arguments:
     __________
     model: torch.nn.Module
@@ -26,6 +27,6 @@ def get_model_configs(model, train_size, learning_rate, num_epochs):
 
     criterion = torch.nn.CrossEntropyLoss()
     optimizer = torch.optim.Adam(model.parameters(), 0.01)
-    scheduler = torch.optim.lr_scheduler.OneCycleLR(optimizer, learning_rate,
-                                                    epochs=num_epochs, steps_per_epoch=train_size)
+    scheduler = torch.optim.lr_scheduler.OneCycleLR(
+        optimizer, learning_rate, epochs=num_epochs, steps_per_epoch=train_size)
     return criterion, optimizer, scheduler

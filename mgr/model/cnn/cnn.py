@@ -1,15 +1,17 @@
 import torch.nn as nn
 import torch
 
+
 class CNN(nn.Module):
     """CNN Model
-    
+
     Arguments:
     __________
     device: torch.device
         device to run the model on
     """
-    def __init__(self,device):
+
+    def __init__(self, device):
         super(CNN, self).__init__()
         self.layer1 = nn.Sequential(
             nn.Conv2d(1, 16, kernel_size=3, padding=1, stride=1),
@@ -46,12 +48,12 @@ class CNN(nn.Module):
 
     def forward(self, x):
         """Forward pass of the model
-        
+
         Arguments:
         __________
         x: torch.Tensor
             input tensor
-        
+
         Returns:
         ________
         out: torch.Tensor
@@ -66,4 +68,3 @@ class CNN(nn.Module):
         out_cnn = out_cnn.view(out_cnn.size(0), -1)
         out_cnn = self.fc(out_cnn)
         return out_cnn
-

@@ -11,9 +11,10 @@ import numpy as np
 import torch
 import os
 
+
 def getModel():
     """Create the model
-    
+
     Returns:
     ________
     model: torch.nn.Module
@@ -21,7 +22,7 @@ def getModel():
     """
     CFG = load_configurations()['transformer']['train']
     device = load_configurations()['device']
-    
+
     model = cnn_transformer_v3.CNNTransformerV3(
         embed_dim=CFG['model_params']['embed_dim'],
         hidden_dim=CFG['model_params']['hidden_dim'],
@@ -32,12 +33,13 @@ def getModel():
         dropout=CFG['model_params']['dropout'],
         device=device
     ).to(device)
-    
+
     return model
+
 
 def start_training():
     """Create the model
-    
+
     Returns:
     ________
     model: torch.nn.Module
@@ -52,18 +54,31 @@ def start_training():
     transform = transforms.Compose([
         transforms.Normalize(0.5, 0.5)
     ])
-    
+
     features = np.load(CFG['features_path'])
     labels = np.load(CFG['labels_path'])
-    features  = torch.FloatTensor(features)
-    
-    train_loader, val_loader = get_data(features, labels, transform)
-    criterion, optimizer, scheduler = get_model_configs(model, len(train_loader), CFG['learning_rate'], CFG['epochs'])
-    
-    trainer = Trainer(model, device, optimizer, criterion, scheduler, model_name="transformerv3.pt")
+    features = torch.FloatTensor(features)
 
-    History = trainer.fit(CFG['early_stopping'], CFG['save_model_at'], train_loader, 
-                          val_loader, CFG['epochs'], train_BS=CFG['train_BS'], valid_BS=CFG['valid_BS'])
+    train_loader, val_loader = get_data(features, labels, transform)
+    criterion, optimizer, scheduler = get_model_configs(
+        model, len(train_loader), CFG['learning_rate'], CFG['epochs'])
+
+    trainer = Trainer(
+        model,
+        device,
+        optimizer,
+        criterion,
+        scheduler,
+        model_name="transformerv3.pt")
+
+    History = trainer.fit(
+        CFG['early_stopping'],
+        CFG['save_model_at'],
+        train_loader,
+        val_loader,
+        CFG['epochs'],
+        train_BS=CFG['train_BS'],
+        valid_BS=CFG['valid_BS'])
 
     plt.plot(History['train_loss'], label="train")
     plt.plot(History['val_loss'], label="val")
@@ -78,10 +93,14 @@ def start_training():
     plt.title("Accuracy")
     plt.xlabel('epochs')
     plt.show()
-    
-    ckpts = torch.load(os.path.join(CFG['save_model_at'], "cnn_transformer_v3.pt"), map_location=device)
+
+    ckpts = torch.load(
+        os.path.join(
+            CFG['save_model_at'],
+            "cnn_transformer_v3.pt"),
+        map_location=device)
     model.load_state_dict(ckpts['model'])
-    
+
     predict_test(model, device, criterion)
 
     return model, History
