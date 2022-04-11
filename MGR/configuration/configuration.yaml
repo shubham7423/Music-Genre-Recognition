@@ -66,10 +66,6 @@ lstm:
     learning_rate: 0.01
     save_model_at: "model_weights/lstm"
 
-    early_stopping: 15
-    train_BS: 64
-    valid_BS: 64
-    epochs: 500
      
   test:
     features_path:  "data/test/test_features.npy"

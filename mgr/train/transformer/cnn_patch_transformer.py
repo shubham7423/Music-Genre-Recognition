@@ -74,7 +74,7 @@ def start_training():
         optimizer,
         criterion,
         scheduler,
-        model_name="transformerv3.pt")
+        model_name="cnn_patch_transformer.pt")
 
     History = trainer.fit(
         CFG['early_stopping'],
