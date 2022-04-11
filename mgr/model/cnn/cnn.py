@@ -2,6 +2,13 @@ import torch.nn as nn
 import torch
 
 class CNN(nn.Module):
+    """CNN Model
+    
+    Arguments:
+    __________
+    device: torch.device
+        device to run the model on
+    """
     def __init__(self,device):
         super(CNN, self).__init__()
         self.layer1 = nn.Sequential(
@@ -38,6 +45,18 @@ class CNN(nn.Module):
         self.fc = nn.Linear(1024, 8)
 
     def forward(self, x):
+        """Forward pass of the model
+        
+        Arguments:
+        __________
+        x: torch.Tensor
+            input tensor
+        
+        Returns:
+        ________
+        out: torch.Tensor
+            output tensor
+        """
         out_cnn = self.layer1(x)
         out_cnn = self.layer2(out_cnn)
         out_cnn = self.layer3(out_cnn)

@@ -2,7 +2,13 @@ import torch.nn as nn
 import torch
 
 class CNN(nn.Module):
+    """CNN Resnet Model
 
+    Arguments:
+    __________
+    device: torch.device
+        device to run the model on
+    """
     def __init__(self, num_classes=8):
         super().__init__()
         
@@ -24,6 +30,22 @@ class CNN(nn.Module):
 
 
     def _make_layer(self, planes, blocks, stride=1):
+        """Create a resnet layer
+        
+        Arguments:
+        __________
+        planes: int
+            number of input channels
+        blocks: int
+            number of blocks in the layer
+        stride: int
+            stride of the layer
+        
+        Returns:
+        ________
+        layer: nn.Sequential
+            layer of the model
+        """
         downsample = None  
    
         if stride != 1 or self.inplanes != planes:
@@ -44,6 +66,18 @@ class CNN(nn.Module):
     
     
     def forward(self, x):
+        """Forward pass of the model
+        
+        Arguments:
+        __________
+        x: torch.Tensor
+            input tensor
+        
+        Returns:
+        ________
+        out: torch.Tensor
+            output tensor
+        """
         x = self.conv1(x)           
         x = self.bn1(x)
         x = self.relu(x)
@@ -61,7 +95,19 @@ class CNN(nn.Module):
         return x
     
 class BasicBlock(nn.Module):
-
+    """Resnet Block
+    
+    Arguments:
+    __________
+    inplanes: int
+        number of input channels
+    planes: int
+        number of output channels
+    stride: int
+        stride of the layer
+    downsample: nn.Sequential
+        downsample layer
+    """
     def __init__(self, inplanes, planes, stride=1, downsample=None):
         super().__init__()
         self.conv1 = nn.Conv2d(inplanes, planes, kernel_size=3, stride=stride,
@@ -75,6 +121,18 @@ class BasicBlock(nn.Module):
         self.stride = stride
 
     def forward(self, x):
+        """Forward pass of the model
+        
+        Arguments:
+        __________
+        x: torch.Tensor
+            input tensor
+        
+        Returns:
+        ________
+        out: torch.Tensor
+            output tensor
+        """
         identity = x
 
         out = self.conv1(x)

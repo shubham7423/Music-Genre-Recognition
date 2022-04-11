@@ -12,7 +12,13 @@ import torch
 import os
 
 def getModel():
+    """Create the model
     
+    Returns:
+    ________
+    model: torch.nn.Module
+        Model to be trained
+    """
     CFG = load_configurations()['transformer']['train']
     device = load_configurations()['device']
     

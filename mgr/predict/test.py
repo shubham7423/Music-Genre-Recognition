@@ -11,6 +11,26 @@ from mgr.configuration import load_configurations
 
 def predict_test(model, device, criterion, labels_map=['Electronic', 'Experimental', 'Folk', 'Hip-Hop', 'Instrumental',
        'International', 'Pop', 'Rock'], plot_cf=True):
+    """ Predict labels of test set.
+    
+    Arguments
+    ---------
+    model: torch.nn.Module
+        Model to be used.
+    device: torch.device
+        Device to run the model on.
+    criterion: torch.nn.Module
+        Loss function to be used.
+    labels_map: list
+        List of labels.
+    plot_cf: bool
+        Plot confusion matrix.
+
+    Returns 
+    -------
+    list
+        List of predicted labels.
+    """
     
     CFG = load_configurations()
     

@@ -43,6 +43,18 @@ class CNNLstm(nn.Module):
         self.fc2 = nn.Linear(1024, opt_class)
     
     def forward(self, input):
+        """Forward pass of the model
+        
+        Arguments:
+        __________
+        input: torch.Tensor
+            input tensor
+        
+        Returns:
+        ________
+        out: torch.Tensor
+            output tensor
+        """
         x = F.relu(self.conv11(input))
         x = F.relu(self.conv12(x))
         x = self.bn1(x)

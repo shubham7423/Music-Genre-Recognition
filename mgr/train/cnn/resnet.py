@@ -13,7 +13,13 @@ import torch
 import os
 
 def getModel():
+    """Create the model
     
+    Returns:
+    ________
+    model: torch.nn.Module
+        Model to be trained
+    """
     device = load_configurations()['device']
     model = resnet.CNN(8).to(device)
     return model

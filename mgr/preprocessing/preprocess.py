@@ -181,6 +181,7 @@ class MREData(torch.utils.data.Dataset):
         return os.path.join(audio_dir, track_id + '.ogg')
 
 def process():
+    """Preprocess the data and save it to the disk"""
     CFG = load_configurations()
     
     data_csv = pd.read_csv(CFG['preprocessing']['csv_path'])
