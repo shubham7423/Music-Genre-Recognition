@@ -47,8 +47,6 @@ def start_training():
 
     History = trainer.fit(CFG['early_stopping'], CFG['save_model_at'], train_loader, 
                           val_loader, CFG['epochs'], train_BS=CFG['train_BS'], valid_BS=CFG['valid_BS'])
-
-    # print(torchsummary.summary(model, (1, 128, 94)))
     
     plt.plot(History['train_loss'], label="train")
     plt.plot(History['val_loss'], label="val")
@@ -64,7 +62,7 @@ def start_training():
     plt.xlabel('epochs')
     plt.show()
     
-    ckpts = torch.load(os.path.join(CFG['save_model_at'], "lstm.pt"), map_location=CFG['device'])
+    ckpts = torch.load(os.path.join(CFG['save_model_at'], "lstm.pt"), map_location=device)
     model.load_state_dict(ckpts['model'])
     
     predict_test(model, device, criterion)

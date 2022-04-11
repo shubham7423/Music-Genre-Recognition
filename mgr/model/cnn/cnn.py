@@ -1,10 +1,5 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Sat Apr  9 21:11:34 2022
-
-@author: p_hubham
-"""
 import torch.nn as nn
+import torch
 
 class CNN(nn.Module):
     def __init__(self,device):
@@ -52,3 +47,4 @@ class CNN(nn.Module):
         out_cnn = out_cnn.view(out_cnn.size(0), -1)
         out_cnn = self.fc(out_cnn)
         return out_cnn
+
