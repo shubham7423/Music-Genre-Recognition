@@ -13,8 +13,8 @@ import torch
 import os
 import numpy as np
 
-def test_model_class():
-    """Test the model class
+def test():
+    """Test the functionalities.
     """
 
     assert 'torch' in globals()
@@ -101,6 +101,6 @@ def test_model_class():
     del(random_inp)
     
 if __name__ == "__main__":
-    test_model_class()
+    test()
     print("Passed all tests")
        
