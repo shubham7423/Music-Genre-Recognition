@@ -89,6 +89,15 @@ def test_model_class():
     assert os.path.exists('mgr/' + mgr.configuration.load.load_configurations()['lstm']['train']['save_model_at'])
     assert os.path.exists('mgr/' + mgr.configuration.load.load_configurations()['transformer']['train']['save_model_at'])
     
+    del(model)
+    del(opt)
+    del(train_loader)
+    del(val_loader)
+    del(features)
+    del(labels)
+    del(device)
+    del(random_inp)
+    
 if __name__ == "__main__":
     test_model_class()
     print("Passed all tests")
