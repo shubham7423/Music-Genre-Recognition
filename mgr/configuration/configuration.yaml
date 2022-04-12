@@ -12,7 +12,7 @@ cnn:
     train_BS: 64
     val_size: 0.15
     valid_BS: 64
-device: cuda
+device: cpu
 lstm:
   test:
     features_path: data/test/test_features.npy

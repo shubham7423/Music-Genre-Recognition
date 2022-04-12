@@ -11,7 +11,6 @@ import mgr
 import mgr.train
 import torch
 import os
-import numpy as np
 
 def test():
     """Test the functionalities.
