@@ -10,4 +10,4 @@ def load_configurations():
         Dictionary containing configurations
     """
     with open('mgr/configuration/configuration.yaml', 'r') as file:
-        return yaml.load(file)
+        return yaml.safe_load(file)
