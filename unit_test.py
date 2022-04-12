@@ -21,6 +21,18 @@ def test_model_class():
     device = mgr.configuration.load_configurations()['device']
     random_inp = torch.rand(1, 1, 128, 94).to(device)
     
+    model = resnet.getModel()
+    opt = model(random_inp)
+    assert isinstance(opt, torch.Tensor)
+    assert opt.size(-1) == 8
+    assert isinstance(model, torch.nn.Module)
+    
+    model = cnn.getModel()
+    opt = model(random_inp)
+    assert isinstance(opt, torch.Tensor)
+    assert opt.size(-1) == 8
+    assert isinstance(model, torch.nn.Module)
+    
     model = cnn_lstm.getModel()
     opt = model(random_inp)
     assert isinstance(opt, torch.Tensor)
@@ -39,18 +51,44 @@ def test_model_class():
     assert opt.size(-1) == 8
     assert isinstance(model, torch.nn.Module)
 
-    train_loader, val_loader = mgr.train.data.load_data(mgr.configuration.load.load_configurations()['cnn']['train']['features_path'], mgr.configuration.load.load_configurations()['cnn']['train']['labels_path'])
-    assert len(train_loader.shape) == 4
-    assert len(val_loader.shape) == 4
-    assert train_loader.batch_size == mgr.configuration.load.load_configurations()['cnn']['train']['train_BS']
-    assert val_loader.batch_size == mgr.configuration.load.load_configurations()['cnn']['train']['valid_BS']
-    assert train_loader.shape[1:] == val_loader.shape[1:]
-    assert train_loader.shape[1:] == (1, 128, 94)
-    assert train_loader.shape[0] == mgr.configuration.load.load_configurations()['cnn']['train']['train_BS']
-    assert val_loader.shape[0] == mgr.configuration.load.load_configurations()['cnn']['train']['valid_BS']
+    # train_loader, val_loader = mgr.train.data.load_data(mgr.configuration.load.load_configurations()['cnn']['train']['features_path'], mgr.configuration.load.load_configurations()['cnn']['train']['labels_path'])
+    # assert len(train_loader.shape) == 4
+    # assert len(val_loader.shape) == 4
+    # assert train_loader.batch_size == mgr.configuration.load.load_configurations()['cnn']['train']['train_BS']
+    # assert val_loader.batch_size == mgr.configuration.load.load_configurations()['cnn']['train']['valid_BS']
+    # assert train_loader.shape[1:] == val_loader.shape[1:]
+    # assert train_loader.shape[1:] == (1, 128, 94)
+    # assert train_loader.shape[0] == mgr.configuration.load.load_configurations()['cnn']['train']['train_BS']
+    # assert val_loader.shape[0] == mgr.configuration.load.load_configurations()['cnn']['train']['valid_BS']
 
-    assert os.path.exists(mgr.configuration.load.load_configurations()['cnn']['train']['features_path'])
-    assert os.path.exists(mgr.configuration.load.load_configurations()['cnn']['train']['labels_path'])
+    # assert os.path.exists(mgr.configuration.load.load_configurations()['cnn']['train']['features_path'])
+    # assert os.path.exists(mgr.configuration.load.load_configurations()['cnn']['train']['labels_path'])
+    
+    features, labels = mgr.train.data.load_data('mgr/'+mgr.configuration.load.load_configurations()['cnn']['train']['features_path'], 'mgr/' + mgr.configuration.load.load_configurations()['cnn']['train']['labels_path']);
+    assert len(features) != 0
+    assert len(labels) != 0
+    assert len(features) == len(labels)
+    
+    train_loader, val_loader = mgr.train.data.get_data(features, labels);
+    assert len(train_loader) != 0
+    assert len(val_loader) != 0
+    
+    print(train_loader.dataset)
+    # assert len(train_loader.shape[0]) == 4
+    # assert len(train_loader.shape) == 4
+    # assert len(val_loader.shape) == 4
+    
+    # assert train_loader.batch_size == mgr.configuration.load.load_configurations()['cnn']['train']['train_BS']
+    # assert val_loader.batch_size == mgr.configuration.load.load_configurations()['cnn']['train']['valid_BS']
+    
+    # assert train_loader.shape[1:] == val_loader.shape[1:]
+    # assert train_loader.shape[1:] == (1, 128, 94)
+    # assert train_loader.shape[0] == mgr.configuration.load.load_configurations()['cnn']['train']['train_BS']
+    # assert val_loader.shape[0] == mgr.configuration.load.load_configurations()['cnn']['train']['valid_BS']
+
+    # assert os.path.exists(mgr.configuration.load.load_configurations()['cnn']['train']['features_path'])
+    # assert os.path.exists(mgr.configuration.load.load_configurations()['cnn']['train']['labels_path'])
+    
     
 if __name__ == "__main__":
     test_model_class()
