@@ -51,44 +51,43 @@ def test_model_class():
     assert opt.size(-1) == 8
     assert isinstance(model, torch.nn.Module)
 
-    # train_loader, val_loader = mgr.train.data.load_data(mgr.configuration.load.load_configurations()['cnn']['train']['features_path'], mgr.configuration.load.load_configurations()['cnn']['train']['labels_path'])
-    # assert len(train_loader.shape) == 4
-    # assert len(val_loader.shape) == 4
-    # assert train_loader.batch_size == mgr.configuration.load.load_configurations()['cnn']['train']['train_BS']
-    # assert val_loader.batch_size == mgr.configuration.load.load_configurations()['cnn']['train']['valid_BS']
-    # assert train_loader.shape[1:] == val_loader.shape[1:]
-    # assert train_loader.shape[1:] == (1, 128, 94)
-    # assert train_loader.shape[0] == mgr.configuration.load.load_configurations()['cnn']['train']['train_BS']
-    # assert val_loader.shape[0] == mgr.configuration.load.load_configurations()['cnn']['train']['valid_BS']
+    #check if the features and labels file exists
+        #if you are not using all the models, comment out the model that you do not intend to use
+    assert os.path.exists('mgr/'+mgr.configuration.load.load_configurations()['cnn']['train']['features_path'])
+    assert os.path.exists('mgr/'+mgr.configuration.load.load_configurations()['cnn']['train']['labels_path'])
+    assert os.path.exists('mgr/'+mgr.configuration.load.load_configurations()['lstm']['train']['features_path'])
+    assert os.path.exists('mgr/'+mgr.configuration.load.load_configurations()['lstm']['train']['labels_path'])
+    assert os.path.exists('mgr/'+mgr.configuration.load.load_configurations()['transformer']['train']['features_path'])
+    assert os.path.exists('mgr/'+mgr.configuration.load.load_configurations()['transformer']['train']['labels_path'])
 
-    # assert os.path.exists(mgr.configuration.load.load_configurations()['cnn']['train']['features_path'])
-    # assert os.path.exists(mgr.configuration.load.load_configurations()['cnn']['train']['labels_path'])
-    
+    #if file exists, check if they are loaded properly, as the file is common, we can use any model's path
     features, labels = mgr.train.data.load_data('mgr/'+mgr.configuration.load.load_configurations()['cnn']['train']['features_path'], 'mgr/' + mgr.configuration.load.load_configurations()['cnn']['train']['labels_path']);
     assert len(features) != 0
     assert len(labels) != 0
     assert len(features) == len(labels)
+    assert list(features.shape[1:]) == [1, 128, 94]
+
+    #check if the preprocessing part directory exists
+    assert os.path.exists('mgr/' + mgr.configuration.load.load_configurations()['preprocessing']['train'])
+    assert os.path.exists('mgr/' + mgr.configuration.load.load_configurations()['preprocessing']['test'])
     
+    #further validations of train_loader and val_loader variables using features and labels dataset
     train_loader, val_loader = mgr.train.data.get_data(features, labels);
     assert len(train_loader) != 0
     assert len(val_loader) != 0
+        
+    #check the batch size is properly maintained or not
+    assert train_loader.batch_size == mgr.configuration.load.load_configurations()['cnn']['train']['train_BS']
+    assert val_loader.batch_size == mgr.configuration.load.load_configurations()['cnn']['train']['valid_BS']
+    assert train_loader.batch_size == mgr.configuration.load.load_configurations()['lstm']['train']['train_BS']
+    assert val_loader.batch_size == mgr.configuration.load.load_configurations()['lstm']['train']['valid_BS']
+    assert train_loader.batch_size == mgr.configuration.load.load_configurations()['transformer']['train']['train_BS']
+    assert val_loader.batch_size == mgr.configuration.load.load_configurations()['transformer']['train']['valid_BS']
     
-    print(train_loader.dataset)
-    # assert len(train_loader.shape[0]) == 4
-    # assert len(train_loader.shape) == 4
-    # assert len(val_loader.shape) == 4
-    
-    # assert train_loader.batch_size == mgr.configuration.load.load_configurations()['cnn']['train']['train_BS']
-    # assert val_loader.batch_size == mgr.configuration.load.load_configurations()['cnn']['train']['valid_BS']
-    
-    # assert train_loader.shape[1:] == val_loader.shape[1:]
-    # assert train_loader.shape[1:] == (1, 128, 94)
-    # assert train_loader.shape[0] == mgr.configuration.load.load_configurations()['cnn']['train']['train_BS']
-    # assert val_loader.shape[0] == mgr.configuration.load.load_configurations()['cnn']['train']['valid_BS']
-
-    # assert os.path.exists(mgr.configuration.load.load_configurations()['cnn']['train']['features_path'])
-    # assert os.path.exists(mgr.configuration.load.load_configurations()['cnn']['train']['labels_path'])
-    
+    #check if the folder exists where we save the models
+    assert os.path.exists('mgr/' + mgr.configuration.load.load_configurations()['cnn']['train']['save_model_at'])
+    assert os.path.exists('mgr/' + mgr.configuration.load.load_configurations()['lstm']['train']['save_model_at'])
+    assert os.path.exists('mgr/' + mgr.configuration.load.load_configurations()['transformer']['train']['save_model_at'])
     
 if __name__ == "__main__":
     test_model_class()
